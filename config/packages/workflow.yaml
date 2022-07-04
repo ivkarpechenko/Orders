@@ -1,0 +1,31 @@
+framework:
+    workflows:
+        order:
+            type: state_machine
+            audit_trail:
+                enabled: "%kernel.debug%"
+            marking_store:
+                type: 'method'
+                property: 'status'
+            supports:
+                - App\Entity\Order
+            initial_marking: Created
+            places:
+                - Created
+                - Processed
+                - Transferred to the transport company
+                - Completed
+                - Canceled
+            transitions:
+                worked:
+                    from: Created
+                    to:   Processed
+                to_transport:
+                    from: Processed
+                    to:   Transferred to the transport company
+                complete:
+                    from: Transferred to the transport company
+                    to:   Completed
+                cancel:
+                    from: Created
+                    to:   Canceled

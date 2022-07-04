@@ -1,0 +1,27 @@
+controllers:
+    resource: ../src/Controller/
+    type: attribute
+
+index:
+    path: /
+    controller: App\Controller\OrderController::index
+
+createOrder:
+    path: /createOrder
+    controller: App\Controller\OrderController::createOrder
+
+updateOrder:
+    path: /updateOrder/{id}
+    controller: App\Controller\OrderController::updateOrder
+
+showHistoryOrder:
+    path: /showHistoryOrder/{id}
+    controller: App\Controller\OrderController::showHistoryOrder
+
+setStatusOrder:
+    path: /setStatusOrder
+    controller: App\Controller\OrderController::setStatusOrder
+
+setLogistics:
+    path: /setLogistics
+    controller: App\Controller\OrderController::setLogistics
