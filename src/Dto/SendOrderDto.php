@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Message;
+namespace App\Dto;
 
-class SendOrderMessage
+class SendOrderDto
 {
     public function __construct(
         public readonly int $id,

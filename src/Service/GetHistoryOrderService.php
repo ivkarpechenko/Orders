@@ -2,18 +2,18 @@
 
 namespace App\Service;
 
-use App\Repository\OrderRepository;
+use App\Repository\OrderHistoryRepository;
 
-class GetHistoryOrderService implements GetHistoryOrderServiceInterface
+class GetHistoryOrderService implements GetOrderHistoryServiceInterface
 {
     public function __construct(
-        private OrderRepository $orderRepository
+        private OrderHistoryRepository $orderHistoryRepository
     )
     {
     }
 
     public function getHistoryOrder(int $id): array
     {
-        return $this->orderRepository->findHistoryById($id);
+        return $this->orderHistoryRepository->findBy(['orderId'=>$id]);
     }
 }

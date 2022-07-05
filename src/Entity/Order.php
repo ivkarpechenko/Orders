@@ -16,38 +16,27 @@ class Order
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $userName;
-
-    #[ORM\Column(type: 'string', length: 255, options:["default" => 'Создан'])]
+    #[ORM\Column(type: 'string', length: 255, options: ["default" => 'Created'])]
     private $status = "Created";
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'string', length: 255)]
     private $createdAt;
 
     #[ORM\OneToMany(mappedBy: 'orderRef', targetEntity: OrderProduct::class)]
     private $orderProducts;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $parentId;
-
-    #[ORM\Column(type: 'integer', nullable: true)]
     private $logisticsId;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $sumVolume;
-
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $sumWeight;
-
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $logisticsName;
+    private $companyName;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private $price;
 
-    public function __construct()
+    public function __construct($createdAt)
     {
+        $this->createdAt = $createdAt;
         $this->orderProducts = new ArrayCollection();
     }
 
@@ -56,40 +45,22 @@ class Order
         return $this->id;
     }
 
-    public function getUserName(): ?string
-    {
-        return $this->userName;
-    }
-
-    public function setUserName(string $userName): self
-    {
-        $this->userName = $userName;
-
-        return $this;
-    }
-
     public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?string
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    /**
+     * @param string $status
+     */
+    public function setStatus(string $status): void
     {
-        $this->createdAt = $createdAt;
-
-        return $this;
+        $this->status = $status;
     }
 
     /**
@@ -122,64 +93,14 @@ class Order
         return $this;
     }
 
-    public function getParentId(): ?int
-    {
-        return $this->parentId;
-    }
-
-    public function setParentId(int $parentId): self
-    {
-        $this->parentId = $parentId;
-
-        return $this;
-    }
-
     public function getLogisticsId(): ?int
     {
         return $this->logisticsId;
     }
 
-    public function setLogisticsId(?int $logisticsId): self
+    public function getCompanyName(): ?string
     {
-        $this->logisticsId = $logisticsId;
-
-        return $this;
-    }
-
-    public function getSumVolume(): ?int
-    {
-        return $this->sumVolume;
-    }
-
-    public function setSumVolume(?int $sumVolume): self
-    {
-        $this->sumVolume = $sumVolume;
-
-        return $this;
-    }
-
-    public function getSumWeight(): ?int
-    {
-        return $this->sumWeight;
-    }
-
-    public function setSumWeight(?int $sumWeight): self
-    {
-        $this->sumWeight = $sumWeight;
-
-        return $this;
-    }
-
-    public function getLogisticsName(): ?string
-    {
-        return $this->logisticsName;
-    }
-
-    public function setLogisticsName(?string $logisticsName): self
-    {
-        $this->logisticsName = $logisticsName;
-
-        return $this;
+        return $this->companyName;
     }
 
     public function getPrice(): ?int
@@ -187,10 +108,10 @@ class Order
         return $this->price;
     }
 
-    public function setPrice(?int $price): self
+    public function change(int $logisticsId, string $companyName, int $price)
     {
+        $this->logisticsId = $logisticsId;
+        $this->companyName = $companyName;
         $this->price = $price;
-
-        return $this;
     }
 }

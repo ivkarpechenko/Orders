@@ -2,36 +2,30 @@
 
 namespace App\MessageHandler;
 
-use App\Message\OrderChangeStatusMessage;
-use App\Message\OrderMessage;
 use App\Message\SendOrderMessage;
-use App\Repository\OrderRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Workflow\WorkflowInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class SendOrderMessageHandler
+class SendOrderMessageHandler implements MessageHandlerInterface
 {
     public function __construct(
-        private ?LoggerInterface      $logger = null,
-        private ParameterBagInterface $parameterBag
+        private ParameterBagInterface $parameterBag,
+        private ?LoggerInterface      $logger = null
     )
     {
     }
 
     public function __invoke(SendOrderMessage $sendOrderMessage)
     {
-        $this->logger->info('Order change status', ['orderId' => $sendOrderMessage->getId()]);
         $client = new Client(['base_uri' => $this->parameterBag->get("logistics_url")]);
         try {
             $request = $client->request('POST', $this->parameterBag->get("logistics_url"), [
-                'json' => ['id' => $sendOrderMessage->getId(), 'volume' => $sendOrderMessage->getVolume(), 'weight' => $sendOrderMessage->getWeigth()]
+                'json' => ['id' => $sendOrderMessage->id, 'volume' => $sendOrderMessage->volume, 'weight' => $sendOrderMessage->weight]
             ]);
-            $this->logger->info('Send to logistics', ['orderId' => $sendOrderMessage->getId()]);
+            $this->logger->info('Send to logistics', ['orderId' => $sendOrderMessage->id]);
         } catch (GuzzleException $e) {
             $this->logger->error('Error', ['message' => $e->getMessage()]);
 

@@ -14,10 +14,10 @@ class OrderDtoNormalizer implements NormalizerInterface
             return false;
         }
         return [
-            'id' => $object->getId(),
-            "userName" => $object->getUserName(),
-            "status" => $object->getStatus(),
-            "createdAt" => $object->getCreatedAt()
+            'id' => $object->id,
+            "status" => $object->status,
+            "createdAt" => $object->createdAt,
+            "logisticsId" => $object->logistics
         ];
     }
 

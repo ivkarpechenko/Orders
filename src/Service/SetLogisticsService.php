@@ -13,12 +13,9 @@ class SetLogisticsService implements SetLogisticsServiceInterface
     {
     }
 
-    public function setLogistics(LogisticsDto $dto): int
+    public function setLogistics(LogisticsDto $dto): void
     {
-        $order = $this->orderRepository->find($dto->getIdOrder());
-        $order->setLogisticsId($dto->getId());
-        $order->setLogisticsName($dto->getName());
-        $order->setPrice($dto->getPrice());
-        return $order->getId();
+        $order = $this->orderRepository->find($dto->orderId);
+        $order->change($dto->id,$dto->name,$dto->price);
     }
 }

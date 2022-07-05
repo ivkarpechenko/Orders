@@ -10,7 +10,7 @@ class LogisticsDtoDenormalizer implements DenormalizerInterface
 
     public function denormalize(mixed $data, string $type, string $format = null, array $context = []): LogisticsDto
     {
-        return new LogisticsDto($data["id"], $data["idOrder"], $data["price"], $data["name"]);
+        return new LogisticsDto($data["id"], $data["orderId"], $data["price"], $data["name"]);
     }
 
     public function supportsDenormalization(mixed $data, string $type, string $format = null): bool

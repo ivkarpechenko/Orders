@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-interface GetHistoryOrderServiceInterface
+interface GetOrderHistoryServiceInterface
 {
     public function getHistoryOrder(int $id): array;
 }
